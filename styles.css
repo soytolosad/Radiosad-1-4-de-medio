@@ -1,0 +1,1386 @@
+/* ==========================
+   RESET BASE
+========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #010101; /* negro de fondo */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #f3f3f3;
+  overflow-x: hidden;
+  position: relative; /* importante para la pseudo-capa */
+  background: transparent;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ==========================
+   PALETA RADIOSAD
+========================== */
+:root {
+  --rs-yellow: #ffcf02;
+  --rs-magenta: #e72486;
+  --rs-cyan: #5cc0c6;
+  --rs-blue: #0ea5d6;
+  --rs-dark: #010101;
+  --rs-gray: #4b4b4b;
+  --rs-brown: #b38369;
+}
+
+/* ==========================
+   HEADER
+========================== */
+/* HEADER con ruido */
+.site-header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: var(--rs-yellow);
+  padding: 0.7rem 2rem 1rem; /* tu padding ajustado */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #111;
+
+  position: fixed;
+  overflow: hidden; /* NECESARIO para ruido */
+}
+
+/* Capa de ruido */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  /* ruido procedural SVG */
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>\
+    <filter id='noiseFilter'>\
+      <feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/>\
+    </filter>\
+    <rect width='100%' height='100%' filter='url(%23noiseFilter)'/>\
+  </svg>");
+
+  opacity: 0.3;           /* ajuste de intensidad del ruido */
+  pointer-events: none;     /* no bloquea clics */
+  mix-blend-mode: multiply; /* se fusiona con el amarillo */
+}
+
+/* LOGO EN EL HEADER */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 300px !important;
+  height: auto !important;
+}
+
+.main-nav {
+  display: flex;
+  gap: 2rem;
+  transform: translateX(-20px); /* Mover menú a la izquierda */
+}
+
+.main-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  text-decoration: none;
+  color: #111;
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: relative;
+  text-align: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* animación + color magenta */
+.main-nav a:hover {
+  color: var(--rs-magenta);
+  transform: translateY(-2px);
+}
+
+.main-nav a:hover .nav-icon {
+  background-color: var(--rs-magenta); /* ícono magenta */
+  transform: translateY(-1px) scale(1.06);
+}
+
+/* Tamaño uniforme de los íconos */
+.main-nav a img {
+  height: 32px;      /* o el tamaño que estés usando */
+  width: auto;
+  margin-bottom: 6px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Hover: texto magenta + ícono salta un poquito */
+.main-nav a:hover {
+  color: var(--rs-magenta);
+  transform: translateY(-2px);
+}
+
+.main-nav a:hover img {
+  transform: translateY(-2px) scale(1.08);
+}
+
+
+
+/* Línea entre botones */
+.main-nav a:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -1rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #111;
+  opacity: 0.25;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: #111;             /* negro editorial */
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--rs-magenta);  /* hover rosa */
+}
+
+.main-nav a:hover {
+  color: var(--rs-magenta);
+}
+
+/* Íconos del menú como máscaras SVG */
+.nav-icon {
+  width: 32px;          /* tamaño del icono */
+  height: 32px;
+  margin-bottom: 6px;
+  display: block;
+  background-color: #111;  /* color normal (negro) */
+}
+
+/* Un ícono distinto para cada sección */
+.icon-podcast {
+  -webkit-mask: url('assets/icono_radiosad_podcast.svg') no-repeat center/contain;
+          mask: url('assets/icono_radiosad_podcast.svg') no-repeat center/contain;
+}
+
+.icon-pa-leer {
+  -webkit-mask: url('assets/icono_pa_leer.svg') no-repeat center/contain;
+          mask: url('assets/icono_pa_leer.svg') no-repeat center/contain;
+}
+
+.icon-cubrimientos {
+  -webkit-mask: url('assets/icono_cubrimientos.svg') no-repeat center/contain;
+          mask: url('assets/icono_cubrimientos.svg') no-repeat center/contain;
+}
+
+.icon-pa-pensar {
+  -webkit-mask: url('assets/icono_pa_pensar.svg') no-repeat center/contain;
+          mask: url('assets/icono_pa_pensar.svg') no-repeat center/contain;
+}
+
+.icon-pa-mirar {
+  -webkit-mask: url('assets/icono_pa_mirar.svg') no-repeat center/contain;
+          mask: url('assets/icono_pa_mirar.svg') no-repeat center/contain;
+}
+
+.icon-escapar {
+  -webkit-mask: url('assets/icono_escapar_algoritmo.svg') no-repeat center/contain;
+          mask: url('assets/icono_escapar_algoritmo.svg') no-repeat center/contain;
+}
+
+.icon-quien {
+  -webkit-mask: url('assets/icono_quien.svg') no-repeat center/contain;
+          mask: url('assets/icono_quien.svg') no-repeat center/contain;
+}
+
+.icon-unase {
+  -webkit-mask: url('assets/icono_unase.svg') no-repeat center/contain;
+          mask: url('assets/icono_unase.svg') no-repeat center/contain;
+}
+
+/* ===== HERO ===== */
+
+.hero {
+  margin-top: 80px; /* espacio por el header fijo */
+  background: linear-gradient(90deg, #e72486 0%, #5cc0c6 60%, #0ea5d6 100%);
+  color: #fff;
+  padding: 4rem 6vw 3.5rem;
+    position: relative;
+  overflow: hidden;
+  /* variables para la linterna */
+  --mx: 50%;
+  --my: 50%;
+  --r-inner: 0px;
+  --r-outer: 0px;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+  z-index: 1; /* MUY IMPORTANTE: arriba de la imagen oculta */
+}
+
+/* Capa de imagen oculta detrás del degradado */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/hero_reveal_bg.png") center bottom/cover no-repeat;
+  pointer-events: none;
+  z-index: 0;
+
+  /* La magia: máscara circular que se mueve con el mouse */
+  -webkit-mask-image: radial-gradient(
+    circle at var(--mx) var(--my),
+    rgba(0, 0, 0, 1) 0,
+    rgba(0, 0, 0, 1) var(--r-inner),
+    rgba(0, 0, 0, 0) var(--r-outer)
+  );
+  mask-image: radial-gradient(
+    circle at var(--mx) var(--my),
+    rgba(0, 0, 0, 1) 0,
+    rgba(0, 0, 0, 1) var(--r-inner),
+    rgba(0, 0, 0, 0) var(--r-outer)
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  transition: -webkit-mask-image 0.3s ease-out, mask-image 0.3s ease-out;
+  opacity: 0.25; /* Opacidad inicial (suave, discreta) */
+}
+
+/* Cuando la linterna está activa (clase que pondremos con JS) */
+.hero.hero-reveal-active {
+    opacity: 1.0;
+  --r-inner: 140px;   /* radio interno nítido */
+  --r-outer: 260px;   /* borde difuminado */
+  
+}
+
+/* Lado izquierdo: Richard + on air */
+
+.hero-left {
+  position: relative;
+}
+
+.hero-tag {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.hero-left img {
+  max-width: 260px;
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.35));
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-signal {
+  position: absolute;
+  left: 0;
+  bottom: -1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  background: rgba(0, 0, 0, 0.65);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}
+
+.hero-signal span {
+  width: 4px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--rs-yellow);
+  animation: signal 1.2s infinite ease-in-out;
+}
+
+.hero-signal span:nth-child(2) { animation-delay: 0.15s; }
+.hero-signal span:nth-child(3) { animation-delay: 0.3s; }
+
+/* Lado derecho: texto */
+
+.hero-right {
+  max-width: 640px;
+}
+
+.hero-kicker {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.9;
+  margin-bottom: 0.4rem;
+}
+
+.hero-title {
+  font-size: 2.4rem;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.hero-title span {
+  color: var(--rs-yellow);
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 36rem;
+  opacity: 0.95;
+  margin-bottom: 1.6rem;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.hero-footnote {
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+/* Intro debajo del hero */
+
+.intro-blurb {
+  background: #000;
+  color: #f7f7f7;
+  padding: 1.8rem 6vw 2.2rem;
+  text-align: center;
+}
+
+.intro-blurb p {
+  max-width: 780px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.intro-blurb a {
+  color: var(--rs-magenta);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.intro-blurb a:hover {
+  text-decoration: underline;
+}
+
+/* Animaciones */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes signal {
+  0%, 100% { transform: scaleY(0.6); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* Botones (si ya tienes algo, solo asegúrate que se parezca a esto) */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--rs-yellow);
+  color: #111;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(255,255,255,0.8);
+  color: #fff;
+}
+
+.btn-ghost:hover {
+  background: rgba(0,0,0,0.18);
+}
+
+/* ==========================
+   MINI MANIFIESTO
+========================== */
+.mini-manifiesto {
+  padding: 4rem 2rem;
+  text-align: center;
+  max-width: 720px;
+  margin: auto;
+  color: var(--rs-dark);
+}
+
+.link-manifiesto {
+  color: var(--rs-magenta);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ==========================
+   BLOQUES GENERALES
+========================== */
+.bloque {
+  padding: 4rem 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.bloque-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.bloque-header h2 {
+  font-size: 2rem;
+}
+
+.link-ver-todo {
+  color: var(--rs-magenta);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ==========================
+   PROGRAMAS – NUEVO SISTEMA
+========================== */
+
+/* ==========================
+   RADIOSAD PODCAST – CARDS
+========================== */
+
+.grid-programas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: stretch;          /* todas las columnas a la misma altura */
+}
+
+/* CARD CONTENEDOR */
+.episode-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  height: 100%;                  /* para que todas midan lo mismo */
+}
+
+/* PORTADA */
+.episode-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px 12px 0 0;
+  background-color: #222;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay muy suave sobre la portada */
+.episode-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.08),
+    rgba(0,0,0,0.18)
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* CONTENIDO DE TEXTO DE LA CARD */
+.episode-meta,
+.episode-title,
+.episode-desc,
+.episode-play {
+  padding: 0 1.25rem;
+}
+
+.episode-meta {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.episode-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;                  /* más oscuro para contraste */
+  margin: 0.4rem 0 0.35rem;
+}
+
+.episode-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #333;
+  margin: 0 0 1.5rem;
+}
+
+/* BOTÓN REPRODUCIR */
+.episode-play {
+  border: none;
+  background: #111;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  margin: 0 1.25rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease,
+              box-shadow 0.15s ease;
+  margin-top: auto;             /* EMPUJA el botón hacia abajo */
+}
+
+/* Estado “Reproduciendo” (ya lo usábamos) */
+.episode-card.is-playing .episode-play {
+  background: #e72486;          /* magenta radiosad */
+  box-shadow: 0 8px 20px rgba(231, 36, 134, 0.35);
+}
+
+/* Hover de la tarjeta */
+.episode-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+/* Hover del botón */
+.episode-play:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+}
+
+/* Opcional: pequeño efecto en toda la card al estar activa */
+.episode-card.is-playing {
+  border-color: rgba(231, 36, 134, 0.6);
+}
+
+/* ========= PA' LEER – TARJETAS DE TEXTO ========= */
+
+.grid-textos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+}
+
+/* el <a> que envuelve la tarjeta */
+.card-texto-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* la tarjeta en sí */
+.card-texto {
+  background: rgba(0, 0, 0, 0.78);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+/* ====== TARJETAS "PA' LEER" ====== */
+
+.card-texto-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Etiqueta amarilla */
+.tag-texto {
+  display: inline-block;
+  margin: 0.9rem 1.2rem 0.5rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  background: rgba(255, 207, 2, 0.12);
+  color: #ffcf02;
+  border: 1px solid rgba(255, 207, 2, 0.4);
+  border-radius: 999px;
+
+  backdrop-filter: blur(2px);
+}
+
+/* Tarjeta */
+.card-texto {
+  display: block;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 22px;
+  padding: 0 0 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Imagen de portada */
+.card-texto .thumb {
+  width: 100%;
+  height: 220px;
+  background-size: cover;
+  background-position: center 40%;
+}
+
+/* Título */
+.card-texto h3 {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin: 0.4rem 1.2rem 0.45rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Preview de texto */
+.card-texto p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 1.2rem 1.3rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Hover */
+.card-texto:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+  border-color: rgba(255, 207, 2, 0.65);
+}
+
+/* ==========================
+   CUBRIMIENTOS
+========================== */
+.card-cobertura {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.foto-grande {
+  width: 100%;
+  height: 260px;
+  background: #ccc;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* ==========================
+   FEED VISUAL
+========================== */
+.grid-feed {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.feed-item {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ddd;
+  border-radius: 6px;
+}
+
+/* ==========================
+   GALERÍA
+========================== */
+.galeria-carrusel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.galeria-carrusel .foto {
+  width: 240px;
+  height: 160px;
+  background: #ccc;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+/* ==========================
+   SER PARTE
+========================== */
+.ser-parte {
+  text-align: center;
+  background: var(--rs-cyan);
+  color: #fff;
+  border-radius: 8px;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+.site-footer {
+  padding: 2rem;
+  background: #111;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* LOGO EN EL HEADER */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 48px;   /* tamaño ideal */
+  width: auto;
+  display: block;
+}
+
+/* RICHARD HAPPY – BOTÓN FLOTANTE ANIMADO */
+.richard-floating {
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  width: 170px;   /* antes 110px */
+  height: 170px;  /* antes 110px */
+  background: url('assets/richard_happy.png') no-repeat center/contain;
+  cursor: pointer;
+  z-index: 200;
+  animation: richardFloat 3.5s ease-in-out infinite;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.richard-floating.richard-active {
+  animation: richardFloat 2.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(255, 207, 2, 0.85));
+}
+
+/* Hover: se acerca un poquito y gira mínimo */
+.richard-floating:hover {
+  transform: translateY(-4px) scale(1.04) rotate(-2deg);
+  filter: drop-shadow(0 0 15px rgba(231, 36, 134, 0.7));
+}
+
+/* Keyframes del flotado suave */
+@keyframes richardFloat {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.richard-bubble {
+  position: fixed;
+  bottom: 200px;
+  right: 80px;
+  min-width: 200px;
+  max-width: 260px;
+  padding: 0.7rem;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  display: none;
+  color: #111;
+}
+
+/* ==========================
+   MANIFIESTO – ESCENAS
+========================== */
+.manifiesto-page main {
+  padding-top: 72px;
+}
+
+.escena {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 4rem 2rem;
+}
+
+.escena-inner {
+  max-width: 700px;
+}
+
+.escena-1 {
+  background: linear-gradient(135deg, var(--rs-yellow), var(--rs-cyan));
+  color: #111;
+}
+
+.escena-2 {
+  background: #050505;
+  color: #fff;
+}
+
+.escena-3 {
+  background: #111;
+  color: #fff;
+}
+
+.escena-4 {
+  background: #f6f6f6;
+  color: #111;
+}
+
+.escena-5 {
+  background: #050505;
+  color: #fff;
+}
+
+.escena-6 {
+  background: #1b1b1b;
+  color: #fff;
+}
+
+.escena-7 {
+  background: var(--rs-yellow);
+  color: #111;
+}
+
+.escena-8 {
+  background: #f6f6f6;
+  color: #111;
+}
+
+.btn-volver {
+  margin-top: 2rem;
+}
+
+/* TEXTURA PUNK SUTIL */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('assets/textura_punk.png') repeat;
+  background-size: 500px;
+  opacity: 0.12;  /* nivel de sutileza */
+  z-index: -1;
+}
+
+/* TEXTURA PUNK RADIOSAD */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url('assets/textura_punk.png') repeat;
+  background-size: 700px;
+  opacity: 0.3;   /* súbele un poco para probar */
+  z-index: -1;
+}
+
+/* =========================================
+   MANIFIESTO – PÁGINA DE PERIÓDICO
+   ========================================= */
+
+.manifiesto-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 6rem 0 4rem;         /* espacio para el header fijo */
+  background-color: #0ea5d6;    /* cian base */
+  position: relative;           /* crea contexto para el ::before */
+  overflow: visible;
+  color: #111;
+}
+
+/* CAPA DE TEXTURA ENCIMA DEL CIAN */
+.manifiesto-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;  /* se estira con el contenido */
+  background: url("assets/textura_periodico.jpg") center/cover repeat-y;
+  opacity: 0.20;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* CONTENEDOR PRINCIPAL DEL MANIFIESTO */
+.newspaper-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4.5rem 3rem 5rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  position: relative;
+  z-index: 1;  /* por encima de la textura */
+}
+
+/* CABECERA TIPO PERIÓDICO */
+.newspaper-header {
+  border-bottom: 2px solid rgba(0,0,0,0.18);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.newspaper-kicker {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.newspaper-title {
+  font-size: 3rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+}
+
+.newspaper-intro {
+  max-width: 540px;
+  font-size: 1.02rem;
+  line-height: 1.8;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* GRID: CUERPO + COLUMNA LATERAL */
+.newspaper-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(260px, 1fr);
+  column-gap: 3rem;
+  margin-top: 2.5rem;
+  align-items: flex-start;
+}
+
+/* TIPOGRAFÍA DE PERIÓDICO PARA CUERPO DE TEXTO */
+.newspaper-main,
+.newspaper-main p,
+.news-box,
+.news-box p,
+.news-box ul,
+.newspaper-footer,
+.newspaper-intro {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  font-size: 1.5rem;   /* antes 0.96–0.98rem */
+  line-height: 1.85;    /* más aire */
+}
+
+
+
+/* RECUADRO TIPO PERIÓDICO – SOLO BORDE, SIN FONDO */
+.mfz-callout-inline {
+  background: transparent !important;       /* sin fondo */
+  border: 1px solid rgba(0,0,0,0.22);
+border-top-width: 2px; /* jerarquía leve */
+  padding: 1rem 1.2rem;
+  margin: 1.5rem 0;
+  box-shadow: none !important;
+  transform: none !important;
+  font-size: 1rem;
+  border-radius: 2px;                       /* leve toque editorial */
+}
+
+.mfz-label-hand {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 2rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0rem;
+  display: block;
+  opacity: 0.8;
+}
+
+/* Ajuste solo para el título del recuadro dentro del manifiesto */
+.mfz-callout-inline .mfz-label-hand {
+  margin-bottom: 0rem;   /* reduce el espacio */
+  line-height: 1.1;        /* compacta el texto */
+  opacity: 1;              /* lo vuelve 100% visible */
+}
+
+/* LÍNEAS EDITORIALES EN BOLD */
+.mfz-three-lines {
+  display: block;
+  margin: 2rem 0;
+  padding: 1.2rem 1.5rem;
+  border-top: 2px solid #111;
+  border-bottom: 2px solid #111;
+  background: transparent; /* más limpio, más periodístico */
+  
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 800;          /* SUPER BOLD REAL */
+  font-size: 1.1rem;         /* más grande */
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.mfz-three-lines span {
+  display: block;
+  padding: 0;
+  background: none !important;    /* quitar colores que usábamos antes */
+  color: #111 !important;          /* color editorial */
+  margin-bottom: 0.4rem;
+}
+
+.mfz-three-lines span:last-child {
+  margin-bottom: 0;
+}
+
+/* COLUMNA LATERAL (CAJAS TIPO PERIÓDICO) */
+/* COLUMNA LATERAL TIPO PERIÓDICO */
+.newspaper-side {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  border-left: 1px solid rgba(0,0,0,0.28);
+  padding-left: 1.6rem;
+  margin-top: 0.4rem;
+}
+
+/* Etiqueta pequeña arriba de la columna */
+.side-kicker {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgb(0, 0, 0);
+  margin: 0 0 1rem;
+}
+
+/* Cada nota breve */
+.news-box {
+  margin-bottom: 2.1rem;
+  padding: 0 0 0.8rem;
+}
+
+/* Línea separadora entre notas */
+.news-box + .news-box {
+  border-top: 1px solid rgba(0,0,0,0.18);
+  padding-top: 1.5rem;
+}
+
+/* Encabezado de cada nota (sección + título) */
+.news-box-header {
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Mini sección: Opinión, Guía mínima, etc. */
+.news-box-section {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(0,0,0,0.65);
+  margin: 0;
+}
+
+/* Título de la nota breve */
+.news-box-title {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.03em;
+  margin: 0.15rem 0 0;
+}
+
+/* Texto y listas dentro de la nota */
+.news-box p,
+.news-box ul {
+  margin: 0;
+  font-family: "Spectral", Georgia, serif;
+}
+
+.news-box ul {
+  margin-top: 0.4rem;
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+.news-box li {
+  margin-bottom: 0.3rem;
+}
+
+/* ======== FOOTER DEL MANIFIESTO – ESTILO EDITORIAL ======== */
+
+.newspaper-footer {
+  max-width: 800px;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.28);
+
+  font-family: "Spectral", Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.9;
+}
+
+.newspaper-footer p {
+  margin-bottom: 1.1rem;
+}
+
+/* Primer párrafo tipo “entradilla editorial” */
+.newspaper-footer p:first-of-type {
+  font-weight: 600;
+}
+
+.footer-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Cierre tipo firma editorial */
+.mfz-signoff {
+  margin-top: 1.4rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.strong-signoff {
+  font-weight: 700!important;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .newspaper-container {
+    padding: 3.5rem 1.5rem 4rem;
+  }
+  .newspaper-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2.5rem;
+  }
+}
+
+/* Titulares tipo periódico */
+.newspaper-title {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.newspaper-kicker {
+  font-family: "Spectral", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+}
+
+/* Asegurar Spectral en el recuadro destacado */
+.mfz-callout-inline {
+  font-family: "Spectral", Georgia, serif;
+}
+
+.manifiesto-page .mfz-sticker {
+  display: none !important;
+}
+
+/* CINTILLO DE CIERRE EDITORIAL */
+.newspaper-closer {
+  max-width: 1100px;
+  margin: 3rem auto 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(0,0,0,0.35);
+  text-align: left;
+}
+
+.newspaper-closer span {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* IMAGEN DE APERTURA DEL MANIFIESTO */
+.newspaper-opener {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  margin-top: -1rem; /* acercar al título */
+}
+
+.es-lo-que-hay-img {
+  width: 600px;              /* tamaño equilibrado, no muy grande */
+  max-width: 60vw;
+  opacity: 0.9;
+  filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.25));
+  transform-origin: center;
+  cursor: pointer;
+}
+
+
+/* Animación tipo “lateo / wiggle” corta */
+@keyframes rs-wiggle {
+  0%   { transform: translateY(0) rotate(0deg); }
+  20%  { transform: translateY(-3px) rotate(-2deg); }
+  40%  { transform: translateY(2px) rotate(1.5deg); }
+  60%  { transform: translateY(-2px) rotate(-1deg); }
+  80%  { transform: translateY(1px) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.es-lo-que-hay-img.rs-wiggle {
+  animation: rs-wiggle 0.45s ease-in-out;
+}
+
+/* BOTÓN DE RETORNO EDITORIAL RADIOSAD */
+.newspaper-return {
+  max-width: 1100px;
+  margin: 2.8rem auto 0;
+  text-align: center;
+}
+
+.newspaper-return a {
+  display: inline-block;
+  padding: 0.75rem 1.8rem;
+  border: 1px solid rgba(0,0,0,0.6);
+  background: rgba(255,255,255,0.25);
+  font-family: "Spectral", Georgia, serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.25s ease;
+}
+
+.newspaper-return a:hover {
+  background: rgba(255,255,255,0.55);
+  border-color: #000;
+  transform: translateY(-2px);
+}
+
+/* === Icono especial que usa <img> (no mask) ==== */
+.icono-juego {
+  background-color: transparent !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.icono-juego img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+/* === SECCIÓN TARJETAS TIKTOK === */
+
+/* Contenedor general */
+.tiktok-gallery {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Tarjeta estilo Radiosad */
+.tiktok-card {
+  flex: 0 1 320px;       /* 👉 ancho base ~320px, flexible */
+  min-height: 620px;     /* alto tipo TikTok, ajústalo si quieres */
+  background: rgba(0,0,0,0.45);
+  border-radius: 22px;
+  padding: 0.7rem;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Forzar a TikTok a ocupar todo el ancho del contenedor */
+.tiktok-card blockquote {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 18px;
+  overflow: hidden;
+}

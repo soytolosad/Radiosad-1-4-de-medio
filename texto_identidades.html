@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Identidades en performance — Radiosad</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ===== CUERPO GENERAL DEL ARTÍCULO ===== */
+    .revista-body {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      color: #eaeaea;
+      font-family: "Spectral", serif;
+
+      background: #050608 url("assets/black_paper_texture.jpg") center/cover fixed no-repeat;
+      overflow-x: hidden;
+    }
+
+    /* ====== CANVAS DE PUNTOS ANIMADOS ====== */
+    #revistaNoiseCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0,2;
+      mix-blend-mode: screen;
+    }
+
+    /* ===== HERO ===== */
+    .revista-header {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 3rem auto 0;
+      padding: 0 1.5rem;
+    }
+
+    .revista-hero {
+      width: 100%;
+      border-radius: 24px;
+      display: block;
+      box-shadow: 0 40px 90px rgba(0,0,0,0.7);
+    }
+
+    /* ===== CONTENEDOR ===== */
+    .revista-container {
+      position: relative;
+      z-index: 1;
+      max-width: 850px;
+      margin: 4rem auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    /* ===== CABECERAS ===== */
+    .revista-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.8rem;
+      margin-bottom: 0.6rem;
+      opacity: 0.75;
+      color: #5cc0c6;
+    }
+
+    .revista-title {
+      font-size: 2.8rem;
+      line-height: 1.15;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .revista-subtitle {
+      font-size: 1.3rem;
+      opacity: 0.85;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    /* ===== COLUMNAS ===== */
+    .revista-columns {
+      column-count: 2;
+      column-gap: 3rem;
+      font-size: 1.1rem;
+      line-height: 1.75;
+    }
+
+    .revista-columns p {
+      margin-bottom: 1.4rem;
+    }
+
+    .revista-columns div {
+      break-inside: avoid;
+    }
+
+    /* ===== PULL QUOTE ===== */
+    .pull-quote {
+      font-size: 1.8rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 2rem 0;
+      color: #ffcf02;
+      font-style: italic;
+    }
+
+    /* ===== RECUADRO DESTACADO ===== */
+    .revista-highlight {
+      background: rgba(255,255,255,0.04);
+      border-left: 4px solid #e72486;
+      padding: 1rem 1.2rem;
+      border-radius: 4px;
+      margin: 2rem 0;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+
+    /* ===== BOTÓN DE SALIDA ===== */
+    .revista-back {
+      display: inline-block;
+      margin-top: 4rem;
+      padding: 0.9rem 1.6rem;
+      background: #ffcf02;
+      color: #000;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      box-shadow: 0 12px 26px rgba(0,0,0,0.6);
+    }
+
+    .revista-back:hover {
+      transform: translateY(-3px);
+      background: #ffd93d;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.75);
+    }
+
+    /* ===========================
+         FOOTER ACADÉMICO
+    =========================== */
+
+    .article-footer {
+      margin-top: 4rem;
+      padding: 2.5rem 1.5rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+
+      border-top: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(4px);
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+
+      font-family: "Spectral", serif;
+    }
+
+    .footer-section {
+      padding-right: 1rem;
+    }
+
+    .footer-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5cc0c6;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    .footer-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .footer-list {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.9;
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .footer-list li {
+      margin-bottom: 0.35rem;
+    }
+</style>
+</head>
+
+<body class="revista-body">
+
+  <!-- Capa de puntos animados -->
+  <canvas id="revistaNoiseCanvas"></canvas>
+
+  <!-- ===== HEADER DEL ARTÍCULO ===== -->
+  <header class="revista-header">
+    <img src="assets/ilustracion_identidades.png" alt="Ilustración artículo" class="revista-hero">
+  </header>
+
+  <section class="revista-container">
+    <div class="revista-kicker">Pa' leer · Ensayo</div>
+
+    <h1 class="revista-title">Identidades en performance: escenarios del yo en la multiplicidad contemporánea</h1>
+
+    <p class="revista-subtitle">
+      Una lectura sobre la autenticidad, la performatividad y las múltiples versiones del yo en tiempos de feeds infinitos.
+    </p>
+
+    <!-- ======= CONTENIDO EN DOS COLUMNAS ======= -->
+    <div class="revista-columns">
+
+      <p>
+        “¿Quién soy?” podría ser la entrada más obvia a la exploración de la identidad y la autenticidad, pero quizá sea más certero preguntarse: “¿quiénes soy cuando digo ‘yo’?”. La clave de una posible respuesta está en la propia pregunta: señala la pluralidad implícita que el “yo” contiene.
+      </p>
+
+      <p>
+        Ese “yo” no remite a una identidad sólida e inamovible, sino a un conjunto de capas que van desde lo visible —vestimenta, voz, gestos— y lo heredado —origen, creencias, memoria—, hasta los distintos escenarios en los que ese “yo” se despliega —tanto físicos como digitales—, donde esos yo pueden ser y ejercer de acuerdo con lo que cada entorno establece.
+      </p>
+
+      <!-- PULL QUOTE -->
+      <div class="pull-quote">
+        “La identidad hoy es, en efecto, multidialógica.”
+      </div>
+
+      <p>
+        Como recuerda Charles Taylor, ser “uno mismo” no sucede en el vacío: ocurre dentro de horizontes de sentido y mediante el reconocimiento de otros. Asumidos críticamente, esos marcos no encadenan; orientan y dan duración a la pluralidad del “yo”.
+      </p>
+
+      <p>
+        Ahora bien, cuando los marcos se vuelven tantos y tan heterogéneos, la autenticidad puede diluirse y empujarnos a multiplicar identidades según el escenario. Si la identidad se nutre del reconocimiento —no se fabrica a solas—, se forja en diálogo con otros; por eso no es “monológica”, sino constitutivamente dialógica.
+      </p>
+
+      <p>
+        La diversificación de entornos físicos y digitales, además, nos lleva a buscar reconocimiento según la performatividad que cada contexto premia. Como decía Séneca: «La vida es una obra de teatro: lo que importa no es cuánto dure, sino lo bien que se representa».
+      </p>
+
+      <!-- RECUADRO DESTACADO -->
+      <div class="revista-highlight">
+        Cuando todo se vuelve escenario, la autenticidad se vuelve acto: se interpreta, se ajusta, se mide.
+      </div>
+
+      <p>
+        En esta deriva, cada elección vale porque es mía y “nadie debería juzgar”. El resultado, advierte Taylor, es que se aplanan los criterios y perdemos lenguaje para distinguir entre opciones que merecen durar y caprichos de ocasión.
+      </p>
+
+      <p>
+        Por otro lado, esto también condiciona la fragilidad de nuestras relaciones laborales y afectivas: no es solo el algoritmo, la liquidez de la economía o la falta de anclajes lo que nos empuja a buscar nuevas etapas.
+      </p>
+
+      <p>
+        Taylor describe este tránsito con la imagen de la “tienda de campaña”: donde antes había lazos duraderos, hoy predominan compromisos reubicables, fáciles de plegar y trasladar.
+      </p>
+
+      <p>
+        Negar la multiplicidad sería desconocer la realidad y todo lo que nos constituye. La multiplicidad, bien llevada, exige que el diálogo y el reconocimiento empiecen por uno mismo.
+      </p>
+
+      <p>
+        Solo así la autenticidad deja de evaporarse o mutar en cada escenario y se convierte en una forma de vida reconocible, capaz de sostenerse incluso cuando cambia el telón.
+      </p>
+
+    </div> <!-- /columns -->
+
+    <a href="index.html" class="revista-back">← Volver al chisme</a>
+
+    <!-- ======================
+           FOOTER ACADÉMICO
+    ======================= -->
+    <footer class="article-footer">
+      <div class="footer-section">
+        <h3 class="footer-title">Autores</h3>
+        <p class="footer-text">
+          <strong>Laura Andrea Sánchez</strong><br>
+          <strong>Sergio R. Tolosa Russi</strong><br>
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h3 class="footer-title">Referencias</h3>
+        <ul class="footer-list">
+          <li>Taylor, C. (1994). <em>La ética de la autenticidad</em>. Barcelona: Paidós.</li>
+          <li>Séneca, L. A. (2017). <em>Sobre la brevedad de la vida</em>. Madrid: Alianza Editorial.</li>
+        </ul>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===== ANIMACIÓN DE PUNTOS EN JS ===== -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('revistaNoiseCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let width, height;
+      let t = 0;
+
+      function resize() {
+        width = canvas.width = window.innerWidth * window.devicePixelRatio;
+        height = canvas.height = window.innerHeight * window.devicePixelRatio;
+        ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      function draw() {
+        t += 0.008;
+
+        ctx.clearRect(0, 0, width, height);
+
+        const spacing = 40;         // distancia entre puntos
+        const radius = 1.3;         // tamaño base del punto
+
+        for (let y = 0; y < height; y += spacing) {
+          for (let x = 0; x < width; x += spacing) {
+            // onda suave en diagonal
+            const wave = Math.sin((x * 0.012) + (y * 0.01) + t * 2);
+            const dist = Math.hypot(
+              (x - width / 2) / width,
+              (y - height / 2) / height
+            );
+
+            const fade = 1 - Math.min(dist * 2, 1);    // degradé hacia los bordes
+            const alpha = 0.06 + 0.10 * wave * fade;   // opacidad variable
+
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(230,230,230,${alpha})`;
+            ctx.arc(x, y, radius + fade * 0.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+  <script src="script-dots.js"></script>
+</body>
+</html>

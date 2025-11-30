@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pa' leer · El sueño del colegio y Blancanieves</title>
+
+  <!-- Tipografía -->
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- ESTILOS DEL CUENTO -->
+  <style>
+    /* ======= ESTILO ESPECIAL PARA ARTÍCULOS ======= */
+
+    /* BODY DEL CUENTO */
+    .cuento-body {
+      position: relative;
+      min-height: 100vh;
+      margin: 0;
+      background: #050608;
+      color: #eaeaea;
+      font-family: "Spectral", serif;
+      overflow-x: hidden;
+    }
+
+    /* FONDO ANIMADO */
+    .bg-waves {
+      position: fixed;
+      inset: 0;
+      z-index: -8;
+      pointer-events: none;
+
+      .bg-waves::before,
+.bg-waves::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.02) 0%, transparent 60%);
+  animation: swirl 40s linear infinite;
+  mix-blend-mode: overlay;
+  opacity: 0.25;
+}
+
+.bg-waves::after {
+  animation-direction: reverse;
+  animation-duration: 55s;
+  opacity: 0.18;
+}
+
+@keyframes swirl {
+  0%   { transform: translate(-10%, -10%) scale(1); }
+  50%  { transform: translate(5%, 15%) scale(1.1); }
+  100% { transform: translate(-10%, -10%) scale(1); }
+}
+
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 207, 2, 0.06), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(92, 192, 198, 0.08), transparent 55%),
+        radial-gradient(circle at 20% 80%, rgba(231, 36, 134, 0.05), transparent 55%),
+        url("assets/textura_periodico.jpg");
+
+      background-size:
+        120% 120%,
+        120% 120%,
+        140% 140%,
+        cover;
+
+      background-blend-mode: screen, screen, screen, multiply;
+      opacity: 0.22;
+      animation: bgDrift 26s linear infinite;
+    }
+
+    @keyframes bgDrift {
+      0%   { transform: translate3d(0,0,0) scale(1); }
+      50%  { transform: translate3d(-40px,-20px,0) scale(1.04); }
+      100% { transform: translate3d(0,0,0) scale(1); }
+    }
+
+    /* HEADER DEL CUENTO */
+    .cuento-header {
+      max-width: 900px;
+      margin: 3rem auto 1rem;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cuento-hero {
+      width: 100%;
+      border-radius: 22px;
+      display: block;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+    }
+
+    /* CONTENEDOR DEL ARTÍCULO */
+    .article-container {
+      max-width: 800px;
+      margin: 3rem auto 4rem;
+      padding: 0 1.5rem;
+      line-height: 1.8;
+      position: relative;
+      z-index: 2;
+    }
+
+    .article-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-bottom: 0.4rem;
+      color: #5cc0c6;
+    }
+
+    .article-title {
+      font-size: 2.6rem;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .article-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .article-container p {
+      font-size: 1.05rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .article-container strong {
+      color: #ffcf02;
+    }
+
+    .article-break {
+      margin: 2.5rem 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      width: 60%;
+    }
+
+    .article-highlight {
+      background: rgba(0, 0, 0, 0.35);
+      padding: 1rem 1.2rem;
+      border-left: 3px solid #5cc0c6;
+      margin: 2rem 0;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .article-back {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: 0.8rem 1.4rem;
+      background: #ffcf02;
+      color: #000;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .article-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      background: #ffd93d;
+    }
+  </style>
+</head>
+
+<body class="cuento-body">
+
+  <!-- FONDO ANIMADO -->
+  <div class="bg-waves"></div>
+
+  <!-- IMAGEN DEL CUENTO -->
+  <header class="cuento-header">
+    <img src="assets/ilustración_texto_blancanieves.jpg" alt="Ilustración del cuento" class="cuento-hero">
+  </header>
+
+  <!-- CONTENIDO -->
+  <section class="article-container">
+
+    <div class="article-kicker">Pa' leer · Radiosad</div>
+
+    <h1 class="article-title">El sueño del colegio, el trip y Blancanieves emputada</h1>
+
+    <p class="article-subtitle">
+      Un relato extraño, vívido y un poco aterrador sobre un viaje ácido que terminó en un reino que nunca debió existir.
+    </p>
+
+   <!-- CUERPO DEL TEXTO -->
+    <p>
+      Todo comienza con mi primo Diego, un amigo y yo. La verdad, creo que éramos varios. No sé por qué pero decidimos tripearnos, es decir, consumir ácido y luego ir a un colegio, "nuestro colegio". Abro comillas porque ese no era mi colegio de verdad, pero así parecía en el sueño.
+    </p>
+
+    <p>
+      Ya todos tripeados, emocionados por la aventura, andábamos por el lugar, caminábamos felices por los pasillos escueleros que daban a las aulas de clase. Luego, entre risas y algarabía, llegamos a la zona de atrás, el área típica de las canchas y patios de recreo.
+    </p>
+
+    <p>
+      Ahí mi primo vomita. Tranqui, nos da risa, todo divertidísimo y dentro de lo normal... Yo le digo que si se siente mal viajado me avise, él insiste que no, que está bien.
+    </p>
+
+    <p>
+      Recuerdo que jugamos fútbol, molestamos con unos tanques llenos de agua y quedé empapado. Hasta me acuerdo quitarme el buso y retorcerlo para sacar el exceso. La verdad me la estoy pasando muy bien y creo que mi primo también, todo buenísimo y casi mundano hasta ese punto.
+    </p>
+
+    <p>
+      De momento, ya caída la tarde, llegamos a un pasillo… más bien un camino. Árboles altos y robustos de pino bordean por lado y lado el sendero a la orilla del colegio. Todos comentamos que parecía un escenario de Harry Potter. Nos da risa y comenzamos a cruzarlo.
+    </p>
+
+    <p>
+      Se veía místico y fascinante. Me atrae. Íbamos 3 personas, no recuerdo el tercer integrante. De repente uno de ellos manifiesta que está viendo criaturas, como gnomos o duendes, y ahí empieza un poco el miedo.
+    </p>
+
+    <p>
+      Empezamos a andar más rápido, pues cada vez se hacía más espeso y pequeño el camino. A mí no me da miedo… o bueno sí, pero también emoción y adrenalina. No entendía lo que estaba viviendo y me da risa nerviosa mientras paso de caminar a correr lentamente...
+    </p>
+
+    <p>
+      Al sentir más espesa la vegetación, empiezo a sentir figuras, personas… o seres… no lo creo, pero algo raro sí siento. Hay una energía extraña y continúo hasta que finalmente veo algo.
+    </p>
+
+    <p>
+      Un hombrecillo más pequeño que la mitad de mi estatura, con ropas grises y andrajosas, cara arrugada y un gorro largo y puntiagudo está ahí mirándonos mientras pasábamos a su lado.
+    </p>
+
+    <p><strong>¡Qué puto susto!</strong> Ahora sí estaba seguro: estamos en otro lado, o ya las drogas nos volaron la cabeza y nos llevaron a otra dimensión, yo que sé.</p>
+
+    <p>
+      Giramos a la derecha porque el muro del borde del colegio se acaba y, entre manotazos y zancadas, logramos salir de ahí.
+    </p>
+
+    <p>
+      Al salir, tratando de recobrar la calma, me doy cuenta que estábamos en un lugar extraño. Parecía un reino, todo de fantasía. Era básicamente “muy muy lejano” de Shrek, pero sin el ogro, ni burro, ni Fiona.
+    </p>
+
+    <hr class="article-break">
+
+    <p>
+      Volviendo en sí, me percato de que a nuestro lado están parados en fila unas 4 o 5 figuras de seres místicos: entre enanos, duendes, gnomos y otros. No recuerdo cuáles. Quizás porque no sé muy bien la diferencia.
+    </p>
+
+    <p>
+      En ese momento, noto que está ahí un personaje imposible de no reconocer: <strong>Blancanieves</strong>.
+    </p>
+
+    <p><strong>Dios mío, ahora sí me frité</strong> —pienso mientras escribo esta historia y me río entre mis cobijas.</p>
+
+    <p>
+      Blancanieves se veía emputadísima. Decía que era porque unos intrusos habían quebrantado su seguridad. Llama a varias personas y manifiesta su inconformidad con la ley de “puertas abiertas”, dice que desde siempre la ha odiado.
+    </p>
+
+    <p>
+      Nosotros estábamos ahí, viendo. Ya ni me sentía yo mismo; me hallaba como espectador de lo que para mí vendría siendo Shrek 5 o un spin-off de la saga.
+    </p>
+
+    <p>
+      Para ese momento, Blancanieves le dice a un guardia que no hay más qué hacer, que hay que cerrar las puertas del reino. Toma unas llaves y ordena empezar a cerrar.
+    </p>
+
+    <p>
+      Había una pequeña villa junto a la puerta que daba a la salida, como una aldea de elfos o duendes. Manda a guardar a los animales —una mezcla entre perros, ponys y cerdos muy pequeños— y me da risa ver esa escena.
+    </p>
+
+    <!-- RECUADRO DESTACADO -->
+    <div class="article-highlight">
+      No sé qué era más raro: si el bosque, los seres, o que todo parecía normal dentro del sueño.
+    </div>
+
+    <p>
+      En ese instante, Blancanieves llama a una tal Priscila. Una chica vestida con un traje rojo muy impactante, con aspecto tierno y rasgos muy definidos.
+    </p>
+
+    <p>
+      Priscila trae una caja roja del tamaño de una pulsera. Blancanieves la exige. Priscila se niega. Discuten. La tensión sube.
+    </p>
+
+    <p>
+      De repente, una gran puerta se abre. Una atmósfera rara y poderosa cubre el lugar. Los guardias obligan a Blancanieves a entrar. Ella grita, intenta resistirse, pero la encierran adentro.
+    </p>
+
+    <p>
+      Mientras Priscila guarda la caja, un ser enorme —como un árbol vivo o unas lianas gigantes— la atrapa y la inmoviliza.
+    </p>
+
+    <p>
+      Ahí desperté.
+    </p>
+
+    <p>
+      Lo último que recuerdo es estar alejado, estupefacto, viendo la escena desde una esquina del reino. Algo me dice que ese tercer miembro de la huida… era Priscila.
+    </p>
+
+    <p>
+      Ahora, todo está demasiado vivo en mi cabeza. Intento volver a dormir. No lo logro.  
+      Así que aquí estoy, sentado en mi cama a las 3:23 a.m., escribiéndolo para no olvidarlo.
+    </p>
+
+    <p>
+      Qué buen trip. O qué buen sueño.  
+      Como sea: ya es tarde y debo seguir descansando.
+    </p>
+
+
+    <!-- RECUADRO DESTACADO -->
+    <div class="article-highlight">
+      No sé qué era más raro: si el bosque, los seres, o que todo parecía normal dentro del sueño.
+    </div>
+
+    <!-- BOTÓN DE VUELTA -->
+    <a href="index.html" class="article-back">
+      ← Salir del cuento y volver al chisme
+    </a>
+
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Escapa del algoritmo — Radiosad</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Puedes usar tu mismo style.css si quieres heredar cosas globales -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ======== LAYOUT GENERAL DEL JUEGO ======== */
+
+    body.game-body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Spectral", sans-serif;
+      background: radial-gradient(circle at top, #ffcf02 0%, #e72486 55%, #020617 100%);
+      color: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .game-header .logo-mini img {
+      height: 32px;
+      display: block;
+    }
+
+    .game-header a {
+      color: #ffcf02;
+      text-decoration: none;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .game-header a:hover {
+      text-decoration: underline;
+    }
+
+    .game-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 3rem;
+    }
+
+    .game-card {
+      background: rgba(15,23,42,0.92);
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.3);
+      padding: 1.75rem 1.75rem 1.5rem;
+      max-width: 900px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(260px, 1fr);
+      gap: 1.75rem;
+    }
+
+    /* Panel de texto / instrucciones */
+
+    .game-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .game-kicker {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      color: #5cc0c6;
+    }
+
+    .game-title {
+      font-size: 1.9rem;
+      line-height: 1.15;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .game-subtitle {
+      font-size: 0.98rem;
+      color: rgba(226,232,240,0.9);
+      margin-bottom: 0.75rem;
+    }
+
+    .game-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 0.75rem;
+      font-size: 0.9rem;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .game-list li::before {
+      content: "▹ ";
+      color: #ffcf02;
+    }
+
+    .game-tagline {
+      font-size: 0.85rem;
+      color: rgba(148,163,184,0.9);
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    /* Botones debajo del canvas */
+
+    .game-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-rs {
+      border: none;
+      cursor: pointer;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .btn-rs-primary {
+      background: #ffcf02;
+      color: #111827;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+    }
+
+    .btn-rs-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(0,0,0,0.85);
+      background: #ffd93d;
+    }
+
+    .btn-rs-ghost {
+      background: transparent;
+      color: #e5e7eb;
+      border: 1px dashed rgba(148,163,184,0.7);
+    }
+
+    .btn-rs-ghost:hover {
+      transform: translateY(-1px);
+      background: rgba(15,23,42,0.9);
+    }
+
+    /* Panel del juego (canvas) */
+
+    .game-canvas-wrap {
+      background: radial-gradient(circle at top, rgba(15,23,42,1) 0%, #020617 60%);
+      border-radius: 20px;
+      border: 1px solid rgba(148,163,184,0.3);
+      padding: 0.75rem 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .game-status-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: rgba(148,163,184,0.95);
+      padding: 0 0.25rem;
+    }
+
+    .game-status-row strong {
+      color: #ffcf02;
+    }
+
+    canvas#gameCanvas {
+      background: radial-gradient(circle at top, #0ea5d6 0%, #020617 70%, #ffcf02 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.35);
+      display: block;
+      max-width: 100%;
+    }
+
+    /* Mensajes flotantes dentro del canvas (texto overlay) */
+    .game-hint {
+      font-size: 0.8rem;
+      color: rgba(148,163,184,0.9);
+      text-align: center;
+    }
+
+    /* Footer mini */
+    .game-footer {
+      text-align: center;
+      padding: 0.5rem 1rem 1.5rem;
+      font-size: 0.78rem;
+      color: rgba(148,163,184,0.85);
+    }
+
+    .game-footer a {
+      color: #ffcf02;
+      text-decoration: none;
+    }
+
+    .game-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .game-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .game-title {
+        font-size: 1.5rem;
+      }
+      .game-card {
+        padding: 1.25rem 1rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="game-body">
+
+  <!-- HEADER SIMPLE -->
+  <header class="game-header">
+    <a href="index.html" class="logo-mini">
+      <img src="assets/logo_radiosad.svg" alt="Radiosad logo">
+    </a>
+    <a href="index.html">← Salir del jueguito y volver al chisme</a>
+  </header>
+
+  <main class="game-wrapper">
+    <section class="game-card">
+      <!-- Panel de texto -->
+      <div class="game-info">
+        <div class="game-kicker">Mini juego · Radiosad</div>
+        <h1 class="game-title">Escapa del algoritmo</h1>
+        <p class="game-subtitle">
+          Mantén al pequeño Radiosad flotando entre toda esa mierda que encontramos en las redes sociales sin dejar que el algoritmo lo mate.
+        </p>
+
+        <ul class="game-list">
+          <li><strong>Espacio / click / tap</strong> para saltar.</li>
+          <li>Esquiva los bloques negros de “contenido recomendado”.</li>
+          <li>Tu puntaje = cuántas columnas sobrevives sin caer en la basura del algoritmo.</li>
+        </ul>
+
+        <p class="game-tagline">
+          Solo tú, tu atención y un feed que no quiere soltarte.
+        </p>
+
+        <div class="game-actions">
+          <button class="btn-rs btn-rs-primary" id="btnStart">
+            ▶ Empezar esta mondá
+          </button>
+          <button class="btn-rs btn-rs-ghost" id="btnRestart">
+            ↺ Reiniciar partida
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel del canvas -->
+      <div class="game-canvas-wrap">
+        <div class="game-status-row">
+          <div>Puntaje: <strong id="scoreLabel">0</strong></div>
+          <div>Mejor: <strong id="bestLabel">0</strong></div>
+        </div>
+
+        <canvas id="gameCanvas" width="420" height="420"></canvas>
+
+        <p class="game-hint">
+          Tip: si te mojarreas muy rápido, puedes decir que fue un “acto de rebeldía hacia sí mismo”.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="game-footer">
+    Radiosad · ¼ de medio que también hace jueguitos para procrastinar con estilo.
+  </footer>
+
+   <script>
+    // ==============================
+    //  FLAPPY RADIOSAD – LÓGICA
+    // ==============================
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const scoreLabel = document.getElementById('scoreLabel');
+    const bestLabel  = document.getElementById('bestLabel');
+    const btnStart   = document.getElementById('btnStart');
+    const btnRestart = document.getElementById('btnRestart');
+
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // "Pájaro" (Radiosad)
+    const birdX = W * 0.25;
+    let birdY   = H * 0.5;
+    let birdVY  = 0;
+    const birdRadius = 14; // se usa solo para colisiones
+
+    const gravity      = 0.35;
+    const jumpImpulse  = -7.5;
+
+    // Personaje Radiosad
+    const birdImg = new Image();
+    birdImg.src = "assets/radiosad_player.png";
+    let birdImgLoaded = false;
+    birdImg.onload = () => {
+      birdImgLoaded = true;
+    };
+
+    // Tubos / columnas
+    let pipes = [];
+    const pipeWidth   = 60;
+    const pipeGap     = 140;
+    const pipeSpeed   = 2.6;
+    const pipeSpacing = 240;
+
+    // Palabras que representan las columnas / trampas del feed
+    const OBSTACLE_WORDS = [
+      "El bum de un perreo intenso",
+      "Trend de baile",
+      "Fake news",
+      "Temu",
+      "Ansiedad",
+      "Anuncio de nuevo concierto",
+      "Elon Musk",
+      "Bombardeo del estado de Israel",
+      "Videos hechos con IA",
+      "La Liendra",
+      "Uribistas bravitos",
+      "Otra polémica de WestCol",
+      "Storytime random",
+      "Otras estupidez de Trump",
+      "Un tuit re loco de Petro",
+      "Algo re fifas",
+      "Drama de influencers",
+      "Noticias falsas",
+      "Publicidad invasiva"
+    ];
+
+    // Estado del juego
+    let gameState = "ready"; // "ready" | "playing" | "gameover"
+    let score = 0;
+    let bestScore = parseInt(localStorage.getItem("rs_flappy_best") || "0", 10);
+    bestLabel.textContent = bestScore;
+
+    function resetGame() {
+      birdY  = H * 0.5;
+      birdVY = 0;
+      score  = 0;
+      scoreLabel.textContent = score;
+      pipes = [];
+
+      // Generar algunos tubos iniciales
+      let startX = W + 80;
+      for (let i = 0; i < 4; i++) {
+        const gapY = 80 + Math.random() * (H - 160);
+        const randomWord =
+          OBSTACLE_WORDS[Math.floor(Math.random() * OBSTACLE_WORDS.length)];
+
+        pipes.push({
+          x: startX,
+          gapY,
+          passed: false,
+          word: randomWord
+        });
+
+        startX += pipeSpacing;
+      }
+    }
+
+    function startPlaying() {
+      if (gameState === "playing") return;
+      resetGame();
+      gameState = "playing";
+    }
+
+    function flap() {
+      if (gameState === "ready") {
+        startPlaying();
+      } else if (gameState === "playing") {
+        birdVY = jumpImpulse;
+      } else if (gameState === "gameover") {
+        resetGame();
+        gameState = "ready";
+      }
+    }
+
+    function update() {
+      if (gameState === "playing") {
+        // Física del "pájaro"
+        birdVY += gravity;
+        birdY  += birdVY;
+
+        // Mover tubos
+        pipes.forEach(pipe => {
+          pipe.x -= pipeSpeed;
+        });
+
+        // ¿Hace falta un nuevo tubo?
+        if (pipes.length > 0) {
+          const lastPipe = pipes[pipes.length - 1];
+          if (lastPipe.x < W - pipeSpacing) {
+            const gapY = 80 + Math.random() * (H - 160);
+            const randomWord =
+              OBSTACLE_WORDS[Math.floor(Math.random() * OBSTACLE_WORDS.length)];
+
+            pipes.push({
+              x: W + pipeWidth,
+              gapY,
+              passed: false,
+              word: randomWord
+            });
+          }
+        }
+
+        // Eliminar tubos muy a la izquierda
+        pipes = pipes.filter(p => p.x > -pipeWidth - 10);
+
+        // Colisiones y puntaje
+        for (let pipe of pipes) {
+          // PUNTAJE: cuando el personaje pasa el centro del tubo
+          if (!pipe.passed && pipe.x + pipeWidth < birdX) {
+            pipe.passed = true;
+            score++;
+            scoreLabel.textContent = score;
+
+            if (score > bestScore) {
+              bestScore = score;
+              bestLabel.textContent = bestScore;
+              localStorage.setItem("rs_flappy_best", bestScore.toString());
+            }
+          }
+
+          // Colisión con el gap
+          const withinX =
+            birdX + birdRadius > pipe.x &&
+            birdX - birdRadius < pipe.x + pipeWidth;
+
+          const hitsTop = birdY - birdRadius < pipe.gapY - pipeGap / 2;
+          const hitsBot = birdY + birdRadius > pipe.gapY + pipeGap / 2;
+
+          if (withinX && (hitsTop || hitsBot)) {
+            gameOver();
+          }
+        }
+
+        // Fuera de pantalla (arriba/abajo)
+        if (birdY - birdRadius < 0 || birdY + birdRadius > H) {
+          gameOver();
+        }
+      } else if (gameState === "ready") {
+        // pequeño movimiento flotante mientras está listo
+        birdY += Math.sin(Date.now() * 0.004) * 0.3;
+      }
+    }
+
+    function gameOver() {
+      gameState = "gameover";
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Bandas verticales tipo feed
+      ctx.save();
+      ctx.globalAlpha = 0.15;
+      for (let i = 0; i < 5; i++) {
+        const x = (i / 5) * W;
+        ctx.fillStyle = i % 2 === 0 ? "#020617" : "#0b1120";
+        ctx.fillRect(x, 0, W / 5 + 1, H);
+      }
+      ctx.restore();
+
+      // Tubos + palabras-obstáculo
+      for (let pipe of pipes) {
+        const topY = 0;
+        const topH = pipe.gapY - pipeGap / 2;
+        const botY = pipe.gapY + pipeGap / 2;
+        const botH = H - botY;
+
+        // Cuerpos de los tubos
+        ctx.fillStyle = "#020617";
+        ctx.fillRect(pipe.x, topY, pipeWidth, topH);
+        ctx.fillRect(pipe.x, botY, pipeWidth, botH);
+
+        // Borde magenta sutil
+        ctx.strokeStyle = "rgba(231,36,134,0.7)";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(pipe.x + 0.5, topY + 0.5, pipeWidth - 1, topH - 1);
+        ctx.strokeRect(pipe.x + 0.5, botY + 0.5, pipeWidth - 1, botH - 1);
+
+        // Texto del obstáculo
+        if (pipe.word) {
+          ctx.save();
+          ctx.fillStyle = "#ffcf02";
+          ctx.font = "bold 20px system-ui, -apple-system, sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          // Lo centramos en el hueco del pipe
+          ctx.fillText(pipe.word, pipe.x + pipeWidth / 2, pipe.gapY);
+
+          ctx.restore();
+        }
+      }
+
+      // Personaje Radiosad
+      ctx.save();
+      if (birdImgLoaded) {
+        const drawW = 70;
+        const drawH = 70;
+        ctx.drawImage(
+          birdImg,
+          birdX - drawW / 2,
+          birdY - drawH / 2,
+          drawW,
+          drawH
+        );
+      } else {
+        // Fallback: círculo amarillo mientras carga la imagen
+        ctx.beginPath();
+        ctx.fillStyle = "#ffcf02";
+        ctx.arc(birdX, birdY, birdRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // Mensajes de estado
+      ctx.fillStyle = "rgba(248,250,252,0.9)";
+      ctx.textAlign = "center";
+
+      if (gameState === "ready") {
+        ctx.font = "bold 16px system-ui";
+        ctx.fillText(
+          "Presiona ESPACIO o haz click para empezar",
+          W / 2,
+          H * 0.35
+        );
+      } else if (gameState === "gameover") {
+        ctx.font = "bold 18px system-ui";
+        ctx.fillText("Pailander, moriste en esta parte del feed", W / 2, H * 0.35);
+
+        ctx.font = "14px system-ui";
+        ctx.fillText(
+          "Pulsa Reiniciar o usa ESPACIO/click para intentarlo de nuevo",
+          W / 2,
+          H * 0.42
+        );
+      }
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    // Controles
+    function onKeyDown(e) {
+      if (e.code === "Space" || e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        flap();
+      }
+    }
+
+    function onPointer() {
+      flap();
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    canvas.addEventListener("mousedown", onPointer);
+    canvas.addEventListener(
+      "touchstart",
+      function (e) {
+        e.preventDefault();
+        onPointer();
+      },
+      { passive: false }
+    );
+
+    btnStart.addEventListener("click", startPlaying);
+    btnRestart.addEventListener("click", () => {
+      resetGame();
+      gameState = "ready";
+    });
+
+    // Init
+    resetGame();
+    loop();
+  </script>
+</body>
+</html>
